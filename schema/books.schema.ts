@@ -28,6 +28,10 @@ export const book = {
       "description": "Publication date of the book",
       "type": "string",
       "format": "date"
+    },
+    "imageurl": {
+      "description": "Image url of the book",
+      "type": "string"
     }
   },
   "required": ["book_id", "title", "author", "description", "publication_date"]

@@ -1,6 +1,7 @@
 import Router, { RouterContext } from "koa-router";
 import bodyParser from "koa-bodyparser";
 import * as model from '../models/books';
+import { validateBook } from '../controllers/validation';
 
 const router = new Router({ prefix: '/api/books' });
 
@@ -80,8 +81,8 @@ const deleteBook = async (ctx: RouterContext, next: any) => {
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getByBookId);
-router.post('/', bodyParser(), createBook);
-router.put('/:id([0-9]{1,})', bodyParser(), updateBook);
+router.post('/', bodyParser(), validateBook, createBook);
+router.put('/:id([0-9]{1,})', bodyParser(), updateBook, validateBook);
 router.del('/:id([0-9]{1,})', deleteBook);
 
 export { router };

@@ -1,6 +1,6 @@
-export const applications = {
+export const application = {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "/applications",
+  "id": "/application",
   "description": "An online application in a new online book store",
   "type": "object",
   "properties": {

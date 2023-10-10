@@ -1,6 +1,7 @@
 import Router, { RouterContext } from "koa-router";
 import bodyParser from "koa-bodyparser";
 import * as model from '../models/applications';
+import { validateApplication } from '../controllers/validation';
 
 const router = new Router({ prefix: '/api/applications' });
 
@@ -64,7 +65,7 @@ const deleteApplication = async (ctx: RouterContext, next: any) => {
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getByApplicationId);
-router.post('/', bodyParser(), createApplication);
+router.post('/', bodyParser(), validateApplication, createApplication);
 router.del('/:id([0-9]{1,})', deleteApplication);
 
 export { router };
