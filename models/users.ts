@@ -15,6 +15,13 @@ export const getById = async (id: any) => {
   return data;
 }
 
+//get a single user by username SQL statement
+export const getByUsername = async (username: string) => {
+  const query = "SELECT * FROM users WHERE username = ?";
+  const user = await db.run_query(query, [username]);
+  return user;
+}
+
 //create user SQL statement
 export const add = async (user: any) => {
   let keys = Object.keys(user);

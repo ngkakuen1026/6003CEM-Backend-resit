@@ -28,6 +28,19 @@ const getByUserId = async (ctx: RouterContext, next: any) => {
   await next();
 }
 
+// Get specific user by username (BaiscAuth)
+const getByUsername = async (ctx: RouterContext, next: any) => {
+  const username = ctx.params.username;
+  const user = await model.getByUsername(username);
+  if (user.length) {
+    ctx.body = user[0];
+  } else {
+    ctx.status = 404;
+    ctx.body = { error: 'User not found' };
+  }
+  await next();
+}
+
 //create users
 const createUser = async (ctx: RouterContext, next: any) => {
   const body = ctx.request.body;
@@ -78,6 +91,7 @@ const deleteUser = async (ctx: RouterContext, next: any) => {
 };
 
 router.get('/', getAll);
+router.get('/:username', getByUsername);
 router.get('/:id([0-9]{1,})', getByUserId);
 router.post('/', bodyParser(), createUser);
 router.put('/:id([0-9]{1,})', bodyParser(), updateUser);

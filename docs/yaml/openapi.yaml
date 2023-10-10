@@ -1,0 +1,228 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Back End Demonstration API
+  description: A Simple Book Online API
+  contact:
+    name: Ng Ka Kuen
+    email: 227021552@stu.vtc.edu.hk
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'http://6003cem-backend-resit.nkk991026.repl.co/api/'
+    description: Development server
+tags:
+  - name: Users
+    description: API endpoints for user management
+  - name: Books
+    description: API endpoints for accessing and performing CRUD operations on books entries.
+  - name: Applications
+    description: API endpoints for online applications 
+paths:
+  /users:
+    parameters:
+      - in: path
+        name: 
+        schema: 
+          type: string
+        required: true
+        description: User list
+    get:
+      tags:
+        - Users
+      description: Get all users
+      responses:
+        '200':
+          description: View of all user record.
+    post:
+      tags:
+        - Users
+      description: Create User.
+      requestBody:
+        description: All new users data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./users.json#/definitions/users
+      responses:
+        '201':
+          description: Create a users record.
+        '500':
+          description: Create data failed.
+  /users/{username}:
+    parameters:
+      - in: path
+        schema:
+          type: string
+        required: true
+        description: User list
+    get:
+      tags:
+        - Users
+      description: Get specific users by username.
+      responses:
+        '200':
+          description: View specific user by username.
+  /users/{id}:
+    parameters:
+      - in: path
+        schema:
+          type: Integer
+        required: true
+        description: User ID
+    get:
+      tags:
+        - Users
+      description: Get specific users by id.
+      responses:
+        '200':
+          description: View specific user by user ID.
+    put:
+      tags:
+        - Users
+      description: Update specific Users by user id .
+      responses:
+        '200':
+          description: Update specific user by user ID.
+        '500':
+          description: Update data failed.
+    delete:
+      tags:
+        - Users
+      description: Delete specific books by user id .
+      responses:
+        '200':
+          description: Delete specific book by user ID.
+        '404':
+          description: User ID not found.
+        '500':
+          description: Delete data failed.
+  /books:
+    parameters:
+      - in: path
+        name: 
+        schema: 
+          type: string
+        required: true
+        description: Book List
+    get:
+      tags:
+        - Books
+      description: Get all books.
+      responses:
+        '200':
+          description: View of all books record.
+    post:
+      tags:
+        - Books
+      description: Create Book.
+      requestBody:
+        description: All new books data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./books.json#/definitions/books
+      responses:
+        '201':
+          description: Create a books record.
+        '500':
+          description: Create data failed.
+  /books/{book_id}:
+    parameters:
+      - in: path
+        name: 
+        schema: 
+          type: Integer
+        required: true
+        description: Book ID
+    get:
+      tags:
+        - Books
+      description: Get specific books by book id .
+      responses:
+        '200':
+          description: View specific book by book ID.
+        '404':
+          description: Book ID not found.
+    put:
+      tags:
+        - Books
+      description: Update specific books by book id .
+      responses:
+        '200':
+          description: Update specific book by book ID.
+        '500':
+          description: Update data failed.
+    delete:
+      tags:
+        - Books
+      description: Delete specific books by book id .
+      responses:
+        '200':
+          description: Delete specific book by book ID.
+        '404':
+          description: Book ID not found.
+        '500':
+          description: Delete data failed.
+  /applications:
+    parameters:
+      - in: path
+        name: 
+        schema: 
+          type: String
+        required: true
+        description: Application List
+    get:
+      tags:
+        - Applications
+      description: Get all applications.
+      responses:
+        '200':
+          description: View of all applications record.
+    post:
+      tags:
+        - Applications
+      description: Create applications.
+      requestBody:
+        description: All new application data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./applications.json#/definitions/applications
+      responses:
+        '201':
+          description: Create a applications record.
+        '500':
+          description: Create data failed.
+  /applications/{application_id}:
+    parameters:
+      - in: path
+        name:
+        schema:
+          type: Integer
+        required: true
+        description: Application ID
+    get:
+      tags:
+        - Applications
+      description: Get specific application by application id.
+      responses:
+        '200':
+          description: View specific application by application ID.
+        '404':
+          description: Application ID not found.
+    delete:
+      tags:
+        - Applications
+      description: Delete specific application by application id .
+      responses:
+        '200':
+          description: Delete specific application by application ID.
+        '404':
+          description: Application ID not found.
+        '500':
+          description: Delete data failed.
