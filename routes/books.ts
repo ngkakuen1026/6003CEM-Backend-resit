@@ -1,35 +1,35 @@
 import Router, { RouterContext } from "koa-router";
 import bodyParser from "koa-bodyparser";
-import * as model from '../models/users';
+import * as model from '../models/books';
 
-const router = new Router({ prefix: '/api/users' });
+const router = new Router({ prefix: '/api/books' });
 
-//get all users
+//get all book
 const getAll = async (ctx: RouterContext, next: any) => {
-  let userss = await model.getAll();
-  if (userss.length) {
-    ctx.body = userss;
+  let books = await model.getAll();
+  if (books.length) {
+    ctx.body = books;
   } else {
     ctx.body = {}
   }
   await next();
 }
 
-//get specific user by usersID
-const getByUserId = async (ctx: RouterContext, next: any) => {
+//get specific book by book ID
+const getByBookId = async (ctx: RouterContext, next: any) => {
   let id = ctx.params.id;
-  let users = await model.getById(id);
-  if (users.length) {
-    ctx.body = users[0];
+  let books = await model.getById(id);
+  if (books.length) {
+    ctx.body = books[0];
   } else {
     ctx.status = 404;
-    ctx.body = { error: 'User ID not found' };
+    ctx.body = { err: "Book ID not found" };
   }
   await next();
 }
 
-//create users
-const createUser = async (ctx: RouterContext, next: any) => {
+//create book
+const createBook = async (ctx: RouterContext, next: any) => {
   const body = ctx.request.body;
   let result = await model.add(body);
   if (result.status == 201) {
@@ -42,11 +42,11 @@ const createUser = async (ctx: RouterContext, next: any) => {
   await next();
 }
 
-//update user information
-const updateUser = async (ctx: RouterContext, next: any) => {
-  const user_id = ctx.params.id;
+//update book information
+const updateBook = async (ctx: RouterContext, next: any) => {
+  const book_id = ctx.params.id;
   const body = ctx.request.body;
-  let result = await model.update(user_id, body);
+  let result = await model.update(book_id, body);
   if (result.status == 200) {
     ctx.status = 200;
     ctx.body = body;
@@ -57,11 +57,11 @@ const updateUser = async (ctx: RouterContext, next: any) => {
   await next();
 }
 
-//delete user by userID
-const deleteUser = async (ctx: RouterContext, next: any) => {
+//delete book by bookID
+const deleteBook = async (ctx: RouterContext, next: any) => {
   const { id } = ctx.params;
-  const user = await model.getById(id);
-  if (user.length) {
+  const book = await model.getById(id);
+  if (book.length) {
     const result = await model.remove(id);
     if (result.status == 200) {
       ctx.status = 204;
@@ -72,15 +72,16 @@ const deleteUser = async (ctx: RouterContext, next: any) => {
     }
   } else {
     ctx.status = 404;
-    ctx.body = { err: "user not found" };
+    ctx.body = { err: "book not found" };
   }
   await next();
 };
 
+
 router.get('/', getAll);
-router.get('/:id([0-9]{1,})', getByUserId);
-router.post('/', bodyParser(), createUser);
-router.put('/:id([0-9]{1,})', bodyParser(), updateUser);
-router.del('/:id([0-9]{1,})', deleteUser);
+router.get('/:id([0-9]{1,})', getByBookId);
+router.post('/', bodyParser(), createBook);
+router.put('/:id([0-9]{1,})', bodyParser(), updateBook);
+router.del('/:id([0-9]{1,})', deleteBook);
 
 export { router };
