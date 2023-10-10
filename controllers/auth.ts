@@ -15,30 +15,33 @@ passport.use(new BasicStrategy(async (username, password, done) => {
     console.error(`Error during authentication for user ${username}: ${error}`);
     done(null, false);
   }
-  if(result.length) {
+  if (result.length) {
     const user = result[0];
-    if(verifyPassword(user, password)) {
-      done(null, {user: user});
+    if (verifyPassword(user, password)) {
+      done(null, { user: user });
     } else {
-      console.log(`Password incorrect for ${username}`);
-      done(null, false);
+      done(`Password incorrect for ${username}`);
     }
   } else {
-    console.log(`No user found with username ${username}`);
-    done(null, false);
+    done(`No user found with username ${username}`);
   }
 }));
 
 
 export const basicAuth = async (ctx: RouterContext, next: any) => {
-  await passport.authenticate("basic", { session: false })(ctx, next);
-  if (ctx.status == 401) {
-    ctx.body = {
-      message: 'you are not authorized'
-    };
-  } else {
-    ctx.body = {
-      message: 'you are passed'
-    };
-  }
+  await passport.authenticate("basic", { session: false }, (err, user, info) => {
+    if (err) {
+      ctx.status = 401;
+      ctx.body = {
+        message: err
+      };
+    } else if (user) {
+      return next();
+    } else {
+      ctx.status = 401;
+      ctx.body = {
+        message: 'you are not authorized'
+      };
+    }
+  })(ctx, next);
 }

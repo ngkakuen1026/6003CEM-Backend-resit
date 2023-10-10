@@ -2,6 +2,7 @@ import Router, { RouterContext } from "koa-router";
 import bodyParser from "koa-bodyparser";
 import * as model from '../models/applications';
 import { validateApplication } from '../controllers/validation';
+import { basicAuth } from '../controllers/auth';
 
 const router = new Router({ prefix: '/api/applications' });
 
@@ -65,7 +66,7 @@ const deleteApplication = async (ctx: RouterContext, next: any) => {
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getByApplicationId);
-router.post('/', bodyParser(), validateApplication, createApplication);
-router.del('/:id([0-9]{1,})', deleteApplication);
+router.post('/', basicAuth, bodyParser(), validateApplication, createApplication);
+router.del('/:id([0-9]{1,})', basicAuth, deleteApplication);
 
 export { router };

@@ -2,6 +2,7 @@ import Router, { RouterContext } from "koa-router";
 import bodyParser from "koa-bodyparser";
 import * as model from '../models/users';
 import { validateUser } from '../controllers/validation';
+import { basicAuth } from '../controllers/auth';
 
 const router = new Router({ prefix: '/api/users' });
 
@@ -94,8 +95,8 @@ const deleteUser = async (ctx: RouterContext, next: any) => {
 router.get('/', getAll);
 router.get('/:username', getByUsername);
 router.get('/:id([0-9]{1,})', getByUserId);
-router.post('/', bodyParser(), validateUser, createUser);
-router.put('/:id([0-9]{1,})', bodyParser(), updateUser, validateUser);
-router.del('/:id([0-9]{1,})', deleteUser);
+router.post('/', basicAuth, bodyParser(), validateUser, createUser);
+router.put('/:id([0-9]{1,})', basicAuth, bodyParser(), updateUser, validateUser);
+router.del('/:id([0-9]{1,})', basicAuth, deleteUser);
 
 export { router };
