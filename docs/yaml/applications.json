@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "definitions":{
-    "applications":{
+  "definitions": {
+    "applications": {
       "id": "/applications",
       "description": "An online application in a new online book store",
       "type": "object",
@@ -40,10 +40,13 @@
         "application_content": {
           "description": "Content of the application",
           "type": "string"
+        },
+        "book_id": {
+          "description": "Foreign key to Book Table",
+          "type": "integer"
         }
       },
       "required": ["application_id", "name", "email"]
     }
   }
 }
-  

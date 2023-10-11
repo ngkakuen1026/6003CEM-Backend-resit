@@ -46,6 +46,14 @@ const getByUsername = async (ctx: RouterContext, next: any) => {
 //create users
 const createUser = async (ctx: RouterContext, next: any) => {
   const body = ctx.request.body;
+  const existingUser = await model.getByUsername(body.username);
+
+  if (existingUser.length) {
+    ctx.status = 409;
+    ctx.body = { error: 'Username already exists.' };
+    return;
+  }
+
   let result = await model.add(body);
   if (result.status == 201) {
     ctx.status = 201;
@@ -95,7 +103,7 @@ const deleteUser = async (ctx: RouterContext, next: any) => {
 router.get('/', getAll);
 router.get('/:username', getByUsername);
 router.get('/:id([0-9]{1,})', getByUserId);
-router.post('/', basicAuth, bodyParser(), validateUser, createUser);
+router.post('/', bodyParser(), validateUser, createUser);
 router.put('/:id([0-9]{1,})', basicAuth, bodyParser(), updateUser, validateUser);
 router.del('/:id([0-9]{1,})', basicAuth, deleteUser);
 

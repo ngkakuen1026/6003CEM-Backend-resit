@@ -38,7 +38,11 @@ export const application = {
     "application_content": {
       "description": "Content of the application",
       "type": "string"
+    },
+    "book_id": {
+      "description": "Foreign key to Book Table",
+      "type": "integer"
     }
   },
-  "required": ["application_id", "name", "email"]
+  "required": ["name", "email"]
 }
